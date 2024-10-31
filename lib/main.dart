@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:newsapp/pages/home_page_controller.dart';
 import 'Config/Theme.dart';
-import 'pages/HomePage/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,13 +13,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    
+    
+ 
     return GetMaterialApp(
       title: 'NEWS APP',
       debugShowCheckedModeBanner: false,
       theme: darkTheme , 
       themeMode: ThemeMode.system , 
       darkTheme: darkTheme,
-      home:  HomePage(),
+      home: HomePageController()
     );
   }
 }
