@@ -9,7 +9,7 @@ const lightLabelColor = Color(0xff8E8E8E);
 
 // Dark Theme Color
 const darkBgColor = Color(0xff191B28);
-const darkFontColor = Color(0xffFFFFFF);
+const darkFontColor = Color(0xFFEEEEEE);
 const darkDivColor = Color(0xff34374B);
 const darkPrimaryColor = Color(0xffFF9900);
 const darkLabelColor = Color(0xff9E9E9E);
