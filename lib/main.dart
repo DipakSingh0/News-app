@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newsapp/pages/home_page_controller.dart';
-import 'Config/Theme.dart';
+import 'Config/theme.dart';
 
 void main() {
   runApp(const MyApp());

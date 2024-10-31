@@ -52,7 +52,6 @@ class NewsDetailsPage extends StatelessWidget {
                       ],
                     )),
                 SizedBox(height: 12),
-
                 Text(
                   "DeadPool and Wolverine Grosses 1 Billion WorldWide",
                   style: TextStyle(
@@ -61,21 +60,19 @@ class NewsDetailsPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 12),
-
-                 Align(
+                Align(
                   alignment: Alignment.centerLeft,
-                   child: Text(
+                  child: Text(
                     "Yesterday",
                     style: TextStyle(
                       fontSize: 15,
                       color: Theme.of(context).colorScheme.secondaryContainer,
                       // fontWeight: FontWeight.bold,
                     ),
-                                   ),
-                 ),
+                  ),
+                ),
                 SizedBox(height: 12),
-                Row(
-                  children: [
+                Row(children: [
                   CircleAvatar(
                     radius: 10,
                     backgroundColor: Colors.red,
@@ -88,10 +85,8 @@ class NewsDetailsPage extends StatelessWidget {
                       // fontWeight: FontWeight.bold,
                     ),
                   ),
-                 
                 ]),
                 SizedBox(height: 12),
-
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -100,9 +95,8 @@ class NewsDetailsPage extends StatelessWidget {
                         " Released in 2024, 'Deadpool & Wolverine' shattered box office records, grossing over 1.3 billion worldwide.\n This superhero film, directed by Shawn Levy, brought together two iconic characters, Deadpool and Wolverine, played by Ryan Reynolds and Hugh Jackman, respectively.\n Deadpool & Wolverine quickly became one of the highest-grossing R-rated films of all time.  ",
                         style: TextStyle(
                           fontSize: 15,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .secondaryContainer,
+                          color:
+                              Theme.of(context).colorScheme.secondaryContainer,
                           // fontWeight: FontWeight.bold,
                         ),
                       ),

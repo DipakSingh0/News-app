@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
 class NewsTiles extends StatelessWidget {
-
   final String imageUrl;
   final String author;
   final String title;
   final String time;
 
-
-  const NewsTiles({super.key, required this.imageUrl, required this.title, required this.time, required this.author});
+  const NewsTiles(
+      {super.key,
+      required this.imageUrl,
+      required this.title,
+      required this.time,
+      required this.author});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,8 @@ class NewsTiles extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.background,
                 borderRadius: BorderRadius.circular(20),
-              ), child: ClipRRect(
+              ),
+              child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.network(
                     // "https://imgs.search.brave.com/DWqe64_yDb9cUHdtO5czpXi5SrBes-FSVlLdBNsPveM/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2htZy1wcm9k/L2ltYWdlcy90YXls/b3Itc3dpZnQtcGVy/Zm9ybXMtb25zdGFn/ZS1kdXJpbmctdGF5/bG9yLXN3aWZ0LXRo/ZS1uZXdzLXBob3Rv/LTE2ODczNjk0MjQu/anBnP3Jlc2l6ZT05/ODA6Kg",
@@ -64,7 +68,7 @@ class NewsTiles extends StatelessWidget {
                     padding: const EdgeInsets.all(5.0),
                     child: Text(
                       // "Donald Trump vs Kamala Harris Epic Rap Battles of History Wiki",
-                     "$title",
+                      "$title",
                       maxLines: 2,
                     ),
                   ),
@@ -72,18 +76,13 @@ class NewsTiles extends StatelessWidget {
                     "  $time",
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
-                   SizedBox(
+                  SizedBox(
                     width: 10,
                   ),
                 ],
-                
               ),
             ),
-            
           ],
-        )
-        
-        );
-        
+        ));
   }
 }

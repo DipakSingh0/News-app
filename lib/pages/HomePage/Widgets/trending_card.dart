@@ -48,11 +48,11 @@ class TrendingCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                     "$tag",             //Tag
+                     tag,             //Tag
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                   Text(
-                      "$time",            //Date
+                      time,            //Date
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ],
@@ -61,7 +61,7 @@ class TrendingCard extends StatelessWidget {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Flexible(
                   child: Text(
-                   '$title',
+                   title,
                     maxLines: 2,
                     style: TextStyle(
                       fontSize: 18,
@@ -84,7 +84,7 @@ class TrendingCard extends StatelessWidget {
                     SizedBox(
                       width: 5,
                     ),
-                    Text("$author"),         //.....writer / author
+                    Text(author),         //.....writer / author
                   ]),
               SizedBox(
                 width: 10,

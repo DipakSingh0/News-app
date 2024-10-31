@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newsapp/Controller/news_controller.dart';
 import 'package:newsapp/pages/HomePage/Widgets/news_tiles.dart';
 import 'package:newsapp/pages/HomePage/Widgets/trending_card.dart';
 import 'package:newsapp/pages/HomePage/news_details.dart';
@@ -9,18 +10,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    NewsController newsController = Get.put(NewsController());
     return SafeArea(
       top: true,
       bottom: true,
       child: Scaffold(
-          // appBar: AppBar(
-          //     title: Text(
-          //   "NEWS APP",
-          //   style: Theme.of(context).textTheme.headlineLarge,
-          // )),
-
-          // floatingActionButton: MyBottomNav(),
-
+         
           body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
@@ -47,13 +43,20 @@ class HomePage extends StatelessWidget {
                         fontFamily: "poppins",
                         letterSpacing: 1.5,
                       )),
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        borderRadius: BorderRadius.circular(100)),
-                    child: Icon(Icons.person),
+
+                      //
+                  InkWell(
+                    onTap: () {
+                      newsController.getTrendingNews();
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(Icons.person),
+                    ),
                   )
                 ],
               ),
@@ -79,53 +82,20 @@ class HomePage extends StatelessWidget {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: [
-                    TrendingCard(
+                  children: newsController.trandingNewsList.map(
+                    (e) => TrendingCard(
                       ontap: () {
                         Get.to(NewsDetailsPage());
                       },
-                      imageUrl:
-                          "https://imgs.search.brave.com/DWqe64_yDb9cUHdtO5czpXi5SrBes-FSVlLdBNsPveM/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2htZy1wcm9k/L2ltYWdlcy90YXls/b3Itc3dpZnQtcGVy/Zm9ybXMtb25zdGFn/ZS1kdXJpbmctdGF5/bG9yLXN3aWZ0LXRo/ZS1uZXdzLXBob3Rv/LTE2ODczNjk0MjQu/anBnP3Jlc2l6ZT05/ODA6Kg",
+                      imageUrl: e.urlToImage , 
                       tag: 'Top trendings..',
-                      time: '2 days ago',
-                      title:
-                          'Taylor Swifts world tour is trending on Social Media',
-                      author: 'FanPage Worldwide',
+                    // time: '2 days ago',
+                    time: e.publishedAt.toString() , 
+                      title: e.title,
+                      author: e.author,
                     ),
-                    TrendingCard(
-                      ontap: () {
-                        Get.to(NewsDetailsPage());
-                      },
-                      imageUrl:
-                          "https://imgs.search.brave.com/6nGouOKX79miMm0PXEhIgmz8GlB23SE4YLUlsVF49Lw/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/bWFydmVsLmNvbS9j/b250ZW50LzF4L2Rl/YWRwb29sLWFuZC13/b2x2ZXJpbmUtaG9t/ZS1lbnQtYXJ0aWNs/ZS1jYXJkLmpwZw",
-                      tag: 'Top trendings..',
-                      time: '3 days ago',
-                      title:
-                          'DeadPool and Wolverine Grosses 1 Billion WorldWide',
-                      author: 'Marvels',
-                    ),
-                    TrendingCard(
-                      ontap: () {
-                        Get.to(NewsDetailsPage());
-                      },
-                      imageUrl:
-                          "https://imgs.search.brave.com/RlLy_K1l_3sniS2vcDjuM7deQgllDRvmnPU5zaP6Sgc/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMxLmNicmltYWdl/cy5jb20vd29yZHBy/ZXNzL3dwLWNvbnRl/bnQvdXBsb2Fkcy8y/MDI0LzEwL3Zlbm9t/LXRha2VzLW9uLXRo/ZS1mb3JtLW9mLWEt/aG9yc2UtaW4tdmVu/b20tdGhlLWxhc3Qt/ZGFuY2UuanBn",
-                      tag: 'Top trendings..',
-                      time: '1 days ago',
-                      title: 'Venom The last dance is released Worldwide Today',
-                      author: 'Marvels',
-                    ),
-                    TrendingCard(
-                      ontap: () {
-                        Get.to(NewsDetailsPage());
-                      },
-                      imageUrl: "",
-                      tag: 'Top trendings..',
-                      time: '1 days ago',
-                      title: '-',
-                      author: '',
-                    ),
-                  ],
+                  ).toList(),
+               
                 ),
               ),
               SizedBox(
