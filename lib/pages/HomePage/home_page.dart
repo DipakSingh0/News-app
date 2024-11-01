@@ -10,13 +10,20 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     NewsController newsController = Get.put(NewsController());
+
     return SafeArea(
       top: true,
       bottom: true,
       child: Scaffold(
-         
+          // appBar: AppBar(
+          //     title: Text(
+          //   "NEWS APP",
+          //   style: Theme.of(context).textTheme.headlineLarge,
+          // )),
+
+          // floatingActionButton: MyBottomNav(),
+
           body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
@@ -43,8 +50,6 @@ class HomePage extends StatelessWidget {
                         fontFamily: "poppins",
                         letterSpacing: 1.5,
                       )),
-
-                      //
                   InkWell(
                     onTap: () {
                       newsController.getTrendingNews();
@@ -80,53 +85,98 @@ class HomePage extends StatelessWidget {
                 height: 20,
               ),
               SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Obx(
+                    () => Row(
+                      children: newsController.trandingNewsList
+                          .map(
+                            (e) => TrendingCard(
+                              ontap: () {
+                                Get.to(NewsDetailsPage());
+                              },
+                              imageUrl: e.urlToImage ??
+                                  "", // Use a placeholder if image is null
+                              tag: 'Top trendings..',
+                              time: e.publishedAt.toString(),
+                              title: e.title ?? "No title",
+                              author: e.author ?? "Unknown Author",
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  )),
+              SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: newsController.trandingNewsList.map(
-                    (e) => TrendingCard(
+                  children: [
+                    TrendingCard(
                       ontap: () {
                         Get.to(NewsDetailsPage());
                       },
-                      imageUrl: e.urlToImage , 
+                      imageUrl:
+                          "https://imgs.search.brave.com/DWqe64_yDb9cUHdtO5czpXi5SrBes-FSVlLdBNsPveM/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2htZy1wcm9k/L2ltYWdlcy90YXls/b3Itc3dpZnQtcGVy/Zm9ybXMtb25zdGFn/ZS1kdXJpbmctdGF5/bG9yLXN3aWZ0LXRo/ZS1uZXdzLXBob3Rv/LTE2ODczNjk0MjQu/anBnP3Jlc2l6ZT05/ODA6Kg",
                       tag: 'Top trendings..',
-                    // time: '2 days ago',
-                    time: e.publishedAt.toString() , 
-                      title: e.title,
-                      author: e.author,
+                      time: '2 days ago',
+                      title:
+                          'Taylor Swifts world tour is trending on Social Media',
+                      author: 'FanPage Worldwide',
                     ),
-                  ).toList(),
-               
+                    TrendingCard(
+                      ontap: () {
+                        Get.to(NewsDetailsPage());
+                      },
+                      imageUrl:
+                          "https://imgs.search.brave.com/6nGouOKX79miMm0PXEhIgmz8GlB23SE4YLUlsVF49Lw/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/bWFydmVsLmNvbS9j/b250ZW50LzF4L2Rl/YWRwb29sLWFuZC13/b2x2ZXJpbmUtaG9t/ZS1lbnQtYXJ0aWNs/ZS1jYXJkLmpwZw",
+                      tag: 'Top trendings..',
+                      time: '3 days ago',
+                      title:
+                          'DeadPool and Wolverine Grosses 1 Billion WorldWide',
+                      author: 'Marvels',
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(
+                height: 20,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "News for you",
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    Text(
+                      "See All",
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "News for you",
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  Text(
-                    "See All",
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                ],
+
+              Column(
+                children: newsController.newsForYouList
+                    .map(
+                      (e) => NewsTiles(
+                        imageUrl: e.urlToImage ??
+                            "", 
+                        
+                        time: e.publishedAt.toString(),
+                        title: e.title ?? "No title",
+                        author: e.author ?? "Unknown Author",
+                      ),
+                    )
+                    .toList(),
               ),
-              SizedBox(
-                height: 20,
-              ),
+
               Column(
                 children: [
-                  NewsTiles(
-                    imageUrl:
-                        'https://imgs.search.brave.com/ku95iS6KM0wdm-xK0s7vhGFViL4rKKbQM6KSbULxAuc/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMud2lraWEubm9j/b29raWUubmV0L2Vw/aWNyYXBiYXR0bGVz/b2ZoaXN0b3J5L2lt/YWdlcy84Lzg2L0Rv/bmFsZF9UcnVtcF92/c19LYW1hbGFfSGFy/cmlzLl9FcGljX1Jh/cF9CYXR0bGVzX29m/X0hpc3RvcnktMi9y/ZXZpc2lvbi9sYXRl/c3Q_Y2I9MjAyNDEw/MjYxODUwMjc',
-                    author: 'BBC',
-                    title:
-                        "Donald Trump vs Kamala Harris Epic Rap Battles of History Wiki",
-                    time: '2 days ago',
-                  ),
                   NewsTiles(
                     imageUrl:
                         'https://ichef.bbci.co.uk/news/1024/cpsprodpb/6281/live/4488bc30-9759-11ef-8538-e1655f5a8342.jpg.webp',
