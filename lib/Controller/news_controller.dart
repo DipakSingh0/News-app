@@ -9,9 +9,10 @@ class NewsController extends GetxController {
 
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    getTrendingNews(); // Fetch data when the controller is initialized
+    getTrendingNews(); 
+    getnewsForYou();
   }
   // function to get the trending news from the api
   Future<void> getTrendingNews() async {
@@ -40,9 +41,9 @@ class NewsController extends GetxController {
 
     // print(trandingNewsList);
   }
-  Future<void> newsForYou() async {
+  Future<void> getnewsForYou() async {
     var baseURL =
-        "https://newsapi.org/v2/everything?q=tesla&from=2024-09-30&sortBy=publishedAt&apiKey=be9da35fbaa44b9e8bc531c95f5f17f8";
+        "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=be9da35fbaa44b9e8bc531c95f5f17f8";
         try {
       var response = await http.get(Uri.parse(baseURL));
       // print(response);
