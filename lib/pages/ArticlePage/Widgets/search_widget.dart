@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:newsapp/Controller/news_controller.dart';
 
 class SearchWidget extends StatelessWidget {
   const SearchWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    NewsController newsController = Get.put(NewsController());
+
+    TextEditingController searchController = TextEditingController();
+
     return Container(
       padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
@@ -15,29 +22,42 @@ class SearchWidget extends StatelessWidget {
         children: [
           Expanded(
               child: TextField(
+                controller:  searchController,
             decoration: InputDecoration(
               hintText: "Search News ...",
               fillColor: Theme.of(context).colorScheme.primaryContainer,
               border: InputBorder.none,
-              // border: OutlineInputBorder(
-              //   borderRadius: BorderRadius.circular(20),
-              //   borderSide: BorderSide.none,
-              // ),
-              // enabledBorder: OutlineInputBorder(
-              //   borderRadius: BorderRadius.circular(20),
-              //   borderSide: BorderSide.none,
-              // )
             ),
           )),
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Theme.of(context).colorScheme.primary,
+          Obx(() => 
+          newsController.isNewsForYouLoading.value ? 
+           Container(
+              width: 50,
+              height: 50,
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            )
+          :
+           InkWell(
+            onTap: () {
+              newsController.searchNews(searchController.text);
+            },
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              child: Icon(Icons.search),
             ),
-            child: Icon(Icons.search),
-          )
+          ),)
         ],
       ),
     );

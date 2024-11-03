@@ -38,7 +38,7 @@ class NewsController extends GetxController {
     isTrandingLoading.value = true;
 
     var baseURL =
-        "https://newsapi.org/v2/everything?q=tesla&from=2024-09-30&sortBy=publishedAt&apiKey=be9da35fbaa44b9e8bc531c95f5f17f8";
+        "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=c667274f38fe4eba95713e193de82873";
     try {
       var response = await http.get(Uri.parse(baseURL));
       // print(response);
@@ -70,7 +70,7 @@ class NewsController extends GetxController {
     isNewsForYouLoading.value = true;
 
     var baseURL =
-        "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=be9da35fbaa44b9e8bc531c95f5f17f8";
+        "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=API_KEY";
     try {
       var response = await http.get(Uri.parse(baseURL));
       // print(response);
@@ -100,7 +100,7 @@ class NewsController extends GetxController {
   Future<void> getAppleNews() async {
     isAppleLoading.value = true;
     var baseURL =
-        "https://newsapi.org/v2/everything?q=apple&from=2024-10-31&to=2024-10-31&sortBy=popularity&apiKey=be9da35fbaa44b9e8bc531c95f5f17f8";
+        "https://newsapi.org/v2/everything?q=tesla&from=2024-10-03&sortBy=publishedAt&apiKey=API_KEY";
     try {
       var response = await http.get(Uri.parse(baseURL));
       // print(response);
@@ -130,7 +130,7 @@ class NewsController extends GetxController {
   Future<void> getBusinesNews() async {
     isBusinesLoading.value = true;
     var baseURL =
-        "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=be9da35fbaa44b9e8bc531c95f5f17f8";
+        "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=API_KEY";
     try {
       var response = await http.get(Uri.parse(baseURL));
       // print(response);
@@ -158,7 +158,7 @@ class NewsController extends GetxController {
   Future<void> getElonNews() async {
     isElonLoading.value = true;
     var baseURL =
-        "https://newsapi.org/v2/everything?q=tesla&from=2024-10-01&sortBy=publishedAt&apiKey=be9da35fbaa44b9e8bc531c95f5f17f8";
+        "https://newsapi.org/v2/everything?q=tesla&from=2024-10-03&sortBy=publishedAt&apiKey=API_KEY";
     try {
       var response = await http.get(Uri.parse(baseURL));
       // print(response);
@@ -174,6 +174,37 @@ class NewsController extends GetxController {
 
         // to display only 5 news for instance
         elonNews4.value = elonNewsList.sublist(0, 4).obs;
+      } else {
+        print("something went wrong: ${response.statusCode}");
+      }
+    } catch (ex) {
+      print(ex);
+    }
+    isElonLoading.value = false;
+  }
+
+  Future<void> searchNews(String search) async {
+    isNewsForYouLoading.value = true;
+    var baseURL =
+        "https://newsapi.org/v2/everything?q=apple&from=2024-11-02&to=2024-11-02&sortBy=popularity&apiKey=API_KEY";
+    try {
+      var response = await http.get(Uri.parse(baseURL));
+      // print(response);
+      if (response.statusCode == 200) {
+        print(response.body);
+        var body = jsonDecode(response.body);
+        var articals = body["articles"];
+
+        // to search first clear the previous data 
+        newsForYouList.clear();
+
+        //then add news like this 
+
+        // too add every  news to the list from given article
+        for (var news in articals) {
+          newsForYouList.add(NewsModel.fromJson(news));
+        }
+
       } else {
         print("something went wrong: ${response.statusCode}");
       }

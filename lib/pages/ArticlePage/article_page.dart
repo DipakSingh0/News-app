@@ -26,21 +26,22 @@ class ArticlePage extends StatelessWidget {
               SizedBox(height: 10),
 
               //.......................newstiles...........................//
-
-              Column(
-                children: newsController.newsForYouList
-                    .map(
-                      (e) => NewsTiles(
-                        ontap: () {
-                          Get.to(NewsDetailsPage(news: e));
-                        },
-                        imageUrl: e.urlToImage ?? "",
-                        time: e.publishedAt.toString(),
-                        title: e.title ?? "No title",
-                        author: e.author ?? "Unknown Author",
-                      ),
-                    )
-                    .toList(),
+              Obx (() => 
+                 Column(
+                  children: newsController.newsForYouList
+                      .map(
+                        (e) => NewsTiles(
+                          ontap: () {
+                            Get.to(NewsDetailsPage(news: e));
+                          },
+                          imageUrl: e.urlToImage ?? "",
+                          time: e.publishedAt.toString(),
+                          title: e.title ?? "No title",
+                          author: e.author ?? "Unknown Author",
+                        ),
+                      )
+                      .toList(),
+                ),
               ),
               SizedBox(height: 10),
             ],
