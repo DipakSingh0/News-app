@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newsapp/Components/newstile_loadingcontainer.dart';
+import 'package:newsapp/Components/trending_loading_card.dart';
 import 'package:newsapp/Controller/news_controller.dart';
 import 'package:newsapp/pages/HomePage/Widgets/news_tiles.dart';
 import 'package:newsapp/pages/HomePage/Widgets/trending_card.dart';
@@ -10,6 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // controller defined
     NewsController newsController = Get.put(NewsController());
 
     return SafeArea(
@@ -24,6 +27,8 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
+
+              // .............................AppBar Row...............................//
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -60,6 +65,8 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
+
+              // .............................hottest news row...............................//
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -73,117 +80,236 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
+
               SizedBox(
                 height: 20,
               ),
+
+              // .............................trending news...............................//
               SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Obx(
-                    () => Row(
-                      children: newsController.trandingNewsList
-                          .map(
-                            (e) => TrendingCard(
-                              ontap: () {
-                                Get.to(NewsDetailsPage());
-                              },
-                              imageUrl: e.urlToImage ??
-                                  "", // Use a placeholder if image is null
-                              tag: 'Top trendings..',
-                              time: e.publishedAt.toString(),
-                              title: e.title ?? "No title",
-                              author: e.author ?? "Unknown Author",
-                            ),
+                    () => newsController.isAppleLoading.value
+                        ? const Row(
+                            children: [
+                              TrendingLoadingCard(),
+                              TrendingLoadingCard(),
+                            ],
                           )
-                          .toList(),
-                    ),
+                        : Row(
+                            children: newsController.appleNews4
+                                .map(
+                                  (e) => TrendingCard(
+                                    ontap: () {
+                                      Get.to(NewsDetailsPage(
+                                        news: e,
+                                      ));
+                                    },
+                                    imageUrl: e.urlToImage ?? "",
+                                    tag: 'Apple trendings..',
+                                    time: e.publishedAt.toString(),
+                                    title: e.title ?? "No title",
+                                    author: e.author ?? "Unknown Author",
+                                  ),
+                                )
+                                .toList(),
+                          ),
                   )),
-              // SingleChildScrollView(
-              //   scrollDirection: Axis.horizontal,
-              //   child: Row(
-              //     children: [
-              //       TrendingCard(
-              //         ontap: () {
-              //           Get.to(NewsDetailsPage());
-              //         },
-              //         imageUrl:
-              //             "https://imgs.search.brave.com/DWqe64_yDb9cUHdtO5czpXi5SrBes-FSVlLdBNsPveM/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2htZy1wcm9k/L2ltYWdlcy90YXls/b3Itc3dpZnQtcGVy/Zm9ybXMtb25zdGFn/ZS1kdXJpbmctdGF5/bG9yLXN3aWZ0LXRo/ZS1uZXdzLXBob3Rv/LTE2ODczNjk0MjQu/anBnP3Jlc2l6ZT05/ODA6Kg",
-              //         tag: 'Top trendings..',
-              //         time: '2 days ago',
-              //         title:
-              //             'Taylor Swifts world tour is trending on Social Media',
-              //         author: 'FanPage Worldwide',
-              //       ),
-              //       TrendingCard(
-              //         ontap: () {
-              //           Get.to(NewsDetailsPage());
-              //         },
-              //         imageUrl:
-              //             "https://imgs.search.brave.com/6nGouOKX79miMm0PXEhIgmz8GlB23SE4YLUlsVF49Lw/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/bWFydmVsLmNvbS9j/b250ZW50LzF4L2Rl/YWRwb29sLWFuZC13/b2x2ZXJpbmUtaG9t/ZS1lbnQtYXJ0aWNs/ZS1jYXJkLmpwZw",
-              //         tag: 'Top trendings..',
-              //         time: '3 days ago',
-              //         title:
-              //             'DeadPool and Wolverine Grosses 1 Billion WorldWide',
-              //         author: 'Marvels',
-              //       ),
-              //     ],
-              //   ),
-              // ),
 
               SizedBox(
                 height: 20,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "News for you",
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    Text(
-                      "See All",
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ],
-                ),
+
+              // .............................for you text row...............................//
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "News for you",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  Text(
+                    "See All",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
               ),
               SizedBox(
                 height: 20,
               ),
 
-              Obx(() => Column(
-                children: newsController.trandingNewsList
-                    .map(
-                      (e) => NewsTiles(
-                        imageUrl: e.urlToImage ?? "https://ichef.bbci.co.uk/news/1024/cpsprodpb/6281/live/4488bc30-9759-11ef-8538-e1655f5a8342.jpg.webp", 
-                        time: e.publishedAt.toString(),
-                        title: e.title ?? "No title",
-                        author: e.author ?? "Unknown Author",
+              // .............................for you News row...............................//
+              Obx(
+                () => newsController.isNewsForYouLoading.value
+                    ? const Column(
+                        children: [
+                          NewstileLoadingcontainer(),
+                          NewstileLoadingcontainer(),
+                          NewstileLoadingcontainer(),
+                        ],
+                      )
+                    : Column(
+                        children: newsController.newsForYou4
+                            .map(
+                              (e) => NewsTiles(
+                                ontap: () {
+                                  Get.to(NewsDetailsPage(news: e));
+                                },
+                                imageUrl: e.urlToImage ??
+                                    "https://ichef.bbci.co.uk/news/1024/cpsprodpb/6281/live/4488bc30-9759-11ef-8538-e1655f5a8342.jpg.webp",
+                                time: e.publishedAt.toString(),
+                                title: e.title ?? "No title",
+                                author: e.author ?? "Unknown Author",
+                              ),
+                            )
+                            .toList(),
                       ),
-                    )
-                    .toList(),
-              ),),
+              ),
 
-              // Column(
-              //   children: [
-              //     NewsTiles(
-              //       imageUrl:
-              //           'https://ichef.bbci.co.uk/news/1024/cpsprodpb/6281/live/4488bc30-9759-11ef-8538-e1655f5a8342.jpg.webp',
-              //       author: 'India Times',
-              //       title: "India celebrates Diwali, the festival of lights",
-              //       time: 'Today',
-              //     ),
-                  // NewsTiles(
-                  //   imageUrl:
-                  //       'https://english.khabarhub.com/wp-content/uploads/2024/10/Cricket_October-2024-e1729481943322.jpg',
-                  //   author: 'KATHMANDU POST',
-                  //   title:
-                  //       "Nepal triumphed over Scotland by five wickets in the One Day International match of the ICC Men’s Cricket World Cup League-2 Series.",
-                  //   time: ' 2 days ago',
-                  // ),
-              //   ],
-              // )
+              // .............................Elon News row...............................//
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Tesla News",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  Text(
+                    "See All",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+
+              // .............................Elon News row...............................//
+              Obx(
+                () => newsController.isElonLoading.value
+                    ? const Column(
+                        children: [
+                          NewstileLoadingcontainer(),
+                          NewstileLoadingcontainer(),
+                          NewstileLoadingcontainer(),
+                        ],
+                      )
+                    : Column(
+                        children: newsController.elonNews4
+                            .map(
+                              (e) => NewsTiles(
+                                ontap: () {
+                                  Get.to(NewsDetailsPage(news: e));
+                                },
+                                imageUrl: e.urlToImage ??
+                                    "https://ichef.bbci.co.uk/news/1024/cpsprodpb/6281/live/4488bc30-9759-11ef-8538-e1655f5a8342.jpg.webp",
+                                time: e.publishedAt.toString(),
+                                title: e.title ?? "No title",
+                                author: e.author ?? "Unknown Author",
+                              ),
+                            )
+                            .toList(),
+                      ),
+              ),
+
+              // .............................Apple news row...............................//
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Apple News",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  Text(
+                    "See All",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+
+              SizedBox(
+                height: 20,
+              ),
+
+              // .............................Apple news Row...............................//
+              SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Obx(
+                    () => newsController.isBusinesLoading.value
+                        ?  const Row(
+                            children: [
+                              TrendingLoadingCard(),
+                              TrendingLoadingCard(),
+                            ],
+                          )
+                        : Row(
+                            children: newsController.businesNews4
+                                .map(
+                                  (e) => TrendingCard(
+                                    ontap: () {
+                                      Get.to(NewsDetailsPage(
+                                        news: e,
+                                      ));
+                                    },
+                                    imageUrl: e.urlToImage ?? "",
+                                    tag: 'Apple trendings..',
+                                    time: e.publishedAt.toString(),
+                                    title: e.title ?? "No title",
+                                    author: e.author ?? "Unknown Author",
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                  )),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Business News",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  Text(
+                    "See All",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+
+              // .............................BusinessNews Column...............................//
+              Obx(
+                () => newsController.isBusinesLoading.value
+                    ? const Column(
+                        children: [
+                          NewstileLoadingcontainer(),
+                          NewstileLoadingcontainer(),
+                          NewstileLoadingcontainer(),
+                        ],
+                      )
+                    : Column(
+                        children: newsController.businesNews4
+                            .map(
+                              (e) => NewsTiles(
+                                ontap: () {
+                                  Get.to(NewsDetailsPage(news: e));
+                                },
+                                imageUrl: e.urlToImage ??
+                                    "https://ichef.bbci.co.uk/news/1024/cpsprodpb/6281/live/4488bc30-9759-11ef-8538-e1655f5a8342.jpg.webp",
+                                time: e.publishedAt.toString(),
+                                title: e.title ?? "No title",
+                                author: e.author ?? "Unknown Author",
+                              ),
+                            )
+                            .toList(),
+                      ),
+              ),
+
+              SizedBox(
+                height: 20,
+              ),
             ],
           ),
         ),

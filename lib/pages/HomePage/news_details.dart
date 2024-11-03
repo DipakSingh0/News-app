@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newsapp/Model/news_model.dart';
 
 class NewsDetailsPage extends StatelessWidget {
-  const NewsDetailsPage({super.key});
+  final NewsModel news;
+
+  const NewsDetailsPage({super.key, required this.news});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +18,7 @@ class NewsDetailsPage extends StatelessWidget {
               children: [
                 Row(
                   children: [
+                    //.......................back button...........................//
                     InkWell(
                       onTap: () {
                         Get.back();
@@ -27,7 +31,7 @@ class NewsDetailsPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(height: 30),
@@ -44,7 +48,8 @@ class NewsDetailsPage extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: Image.network(
-                              "https://imgs.search.brave.com/6nGouOKX79miMm0PXEhIgmz8GlB23SE4YLUlsVF49Lw/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/bWFydmVsLmNvbS9j/b250ZW50LzF4L2Rl/YWRwb29sLWFuZC13/b2x2ZXJpbmUtaG9t/ZS1lbnQtYXJ0aWNs/ZS1jYXJkLmpwZw",
+                              news.urlToImage ??
+                                  "https://imgs.search.brave.com/DWqe64_yDb9cUHdtO5czpXi5SrBes-FSVlLdBNsPveM/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2htZy1wcm9k/L2ltYWdlcy90YXls/b3Itc3dpZnQtcGVy/Zm9ybXMtb25zdGFn/ZS1kdXJpbmctdGF5/bG9yLXN3aWZ0LXRo/ZS1uZXdzLXBob3Rv/LTE2ODczNjk0MjQu/anBnP3Jlc2l6ZT05/ODA6Kg",
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -52,18 +57,22 @@ class NewsDetailsPage extends StatelessWidget {
                       ],
                     )),
                 SizedBox(height: 12),
+
+                //.......................title  and description...........................//
                 Text(
-                  "DeadPool and Wolverine Grosses 1 Billion WorldWide",
+                  news.title!,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
                 ),
                 SizedBox(height: 12),
+
+                //.......................author and time...........................//
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Yesterday",
+                    "${news.author} * ${news.publishedAt}",
                     style: TextStyle(
                       fontSize: 15,
                       color: Theme.of(context).colorScheme.secondaryContainer,
@@ -73,14 +82,20 @@ class NewsDetailsPage extends StatelessWidget {
                 ),
                 SizedBox(height: 12),
                 Row(children: [
+                  //.......................Circle avatar...........................//
                   CircleAvatar(
-                    radius: 10,
-                    backgroundColor: Colors.red,
-                  ),
+                      radius: 15,
+                      backgroundColor: Colors.red,
+                      child: Text(news.author![0],
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ))),
+                  //.......................author...........................//
                   Text(
-                    " Marvels",
+                    " ${news.author}",
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 25,
                       color: Theme.of(context).colorScheme.secondaryContainer,
                       // fontWeight: FontWeight.bold,
                     ),
@@ -90,9 +105,10 @@ class NewsDetailsPage extends StatelessWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    //.......................description...........................//
                     Flexible(
                       child: Text(
-                        " Released in 2024, 'Deadpool & Wolverine' shattered box office records, grossing over 1.3 billion worldwide.\n This superhero film, directed by Shawn Levy, brought together two iconic characters, Deadpool and Wolverine, played by Ryan Reynolds and Hugh Jackman, respectively.\n Deadpool & Wolverine quickly became one of the highest-grossing R-rated films of all time.  ",
+                        news.description ?? "No description",
                         style: TextStyle(
                           fontSize: 15,
                           color:

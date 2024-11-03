@@ -18,28 +18,29 @@ class MyBottomNav extends StatelessWidget {
           height: 60,
           width: 200,
           decoration: BoxDecoration(
-              color: controller.index.value == 0? 
-              Theme.of(context).colorScheme.primaryContainer: 
-              null,
-               borderRadius: BorderRadius.circular(100),
+            color: controller.index.value == 0
+                ? Theme.of(context).colorScheme.primaryContainer
+                : null,
+            borderRadius: BorderRadius.circular(100),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                onTap: () {
-                  controller.index.value = 0;
-                },
-                child: Obx (() => AnimatedContainer(
-                    duration: Duration(milliseconds:300),
-                    curve: Curves.bounceInOut,
+                  onTap: () {
+                    controller.index.value = 0;
+                  },
+                  child: Obx(
+                    () => AnimatedContainer(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.bounceInOut,
                       width: 40,
                       height: 40,
                       padding: EdgeInsets.all(5),
                       decoration: BoxDecoration(
-                        color:controller.index.value == 0? 
-                          Theme.of(context).colorScheme.primary: 
-                          null,
+                        color: controller.index.value == 0
+                            ? Theme.of(context).colorScheme.primary
+                            : null,
                         borderRadius: BorderRadius.circular(100),
                       ),
                       child: Icon(
@@ -50,13 +51,13 @@ class MyBottomNav extends StatelessWidget {
                             : Theme.of(context).colorScheme.secondaryContainer,
                       ),
                     ),
-                  ) 
-              ),
+                  )),
               InkWell(
-                onTap: () {
-                  controller.index.value = 1;
-                },
-                child: Obx(() =>  AnimatedContainer(
+                  onTap: () {
+                    controller.index.value = 1;
+                  },
+                  child: Obx(
+                    () => AnimatedContainer(
                       duration: Duration(milliseconds: 300),
                       curve: Curves.bounceInOut,
                       width: 40,
@@ -77,13 +78,13 @@ class MyBottomNav extends StatelessWidget {
                             : Theme.of(context).colorScheme.secondaryContainer,
                       ),
                     ),
-                  )
-              ),
+                  )),
               InkWell(
-                onTap: () {
-                  controller.index.value = 2;
-                },
-                child: Obx(() =>  AnimatedContainer(
+                  onTap: () {
+                    controller.index.value = 2;
+                  },
+                  child: Obx(
+                    () => AnimatedContainer(
                       duration: Duration(milliseconds: 300),
                       curve: Curves.bounceInOut,
                       width: 40,
@@ -104,8 +105,7 @@ class MyBottomNav extends StatelessWidget {
                             : Theme.of(context).colorScheme.secondaryContainer,
                       ),
                     ),
-                  )
-              ),
+                  )),
             ],
           ),
         ),
