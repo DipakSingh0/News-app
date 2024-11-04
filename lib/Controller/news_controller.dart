@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:newsapp/Model/news_model.dart';
@@ -21,6 +22,8 @@ class NewsController extends GetxController {
   RxBool isAppleLoading = false.obs;
   RxBool isBusinesLoading = false.obs;
   RxBool isElonLoading = false.obs;
+  RxBool isSpeaking = false.obs;
+  FlutterTts flutterTts = FlutterTts();
 
   @override
   void onInit() async {
@@ -34,7 +37,6 @@ class NewsController extends GetxController {
 
   // function to get the trending news from the api
   Future<void> getTrendingNews() async {
-
     isTrandingLoading.value = true;
 
     var baseURL =
@@ -54,7 +56,6 @@ class NewsController extends GetxController {
 
         // to display only 5 news for instance
         trandingNews4.value = trandingNewsList.sublist(0, 4).obs;
-
       } else {
         print("something went wrong: ${response.statusCode}");
       }
@@ -70,7 +71,7 @@ class NewsController extends GetxController {
     isNewsForYouLoading.value = true;
 
     var baseURL =
-        "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=API_KEY";
+        "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=c667274f38fe4eba95713e193de82873";
     try {
       var response = await http.get(Uri.parse(baseURL));
       // print(response);
@@ -86,7 +87,6 @@ class NewsController extends GetxController {
 
         // to display only 5 news for instance
         newsForYou4.value = newsForYouList.sublist(0, 4).obs;
-
       } else {
         print("something went wrong: ${response.statusCode}");
       }
@@ -94,13 +94,12 @@ class NewsController extends GetxController {
       print(ex);
     }
     isNewsForYouLoading.value = false;
-
   }
 
   Future<void> getAppleNews() async {
     isAppleLoading.value = true;
     var baseURL =
-        "https://newsapi.org/v2/everything?q=tesla&from=2024-10-03&sortBy=publishedAt&apiKey=API_KEY";
+        "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=c667274f38fe4eba95713e193de82873";
     try {
       var response = await http.get(Uri.parse(baseURL));
       // print(response);
@@ -116,7 +115,6 @@ class NewsController extends GetxController {
 
         // to display only 5 news for instance
         appleNews4.value = appleNewsList.sublist(0, 4).obs;
-
       } else {
         print("something went wrong: ${response.statusCode}");
       }
@@ -124,13 +122,12 @@ class NewsController extends GetxController {
       print(ex);
     }
     isAppleLoading.value = false;
-
   }
 
   Future<void> getBusinesNews() async {
     isBusinesLoading.value = true;
     var baseURL =
-        "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=API_KEY";
+        "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=c667274f38fe4eba95713e193de82873";
     try {
       var response = await http.get(Uri.parse(baseURL));
       // print(response);
@@ -158,7 +155,7 @@ class NewsController extends GetxController {
   Future<void> getElonNews() async {
     isElonLoading.value = true;
     var baseURL =
-        "https://newsapi.org/v2/everything?q=tesla&from=2024-10-03&sortBy=publishedAt&apiKey=API_KEY";
+        "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=c667274f38fe4eba95713e193de82873";
     try {
       var response = await http.get(Uri.parse(baseURL));
       // print(response);
@@ -195,16 +192,15 @@ class NewsController extends GetxController {
         var body = jsonDecode(response.body);
         var articals = body["articles"];
 
-        // to search first clear the previous data 
+        // to search first clear the previous data
         newsForYouList.clear();
 
-        //then add news like this 
+        //then add news like this
 
         // too add every  news to the list from given article
         for (var news in articals) {
           newsForYouList.add(NewsModel.fromJson(news));
         }
-
       } else {
         print("something went wrong: ${response.statusCode}");
       }
@@ -214,5 +210,16 @@ class NewsController extends GetxController {
     isElonLoading.value = false;
   }
 
-
+  Future<void> speak(String text) async {
+    isSpeaking.value = true;
+    await flutterTts.setLanguage("en-US");
+    await flutterTts.setPitch(1);
+    await flutterTts.setSpeechRate(1);
+    await flutterTts.speak(text);
+    isSpeaking.value = false;
+  }
+  void stop() async {
+    await flutterTts.stop();
+    isSpeaking.value = false;
+  }
 }
